@@ -18,14 +18,34 @@
       </li>
     </ul>
   </div>
+  <div>
+    <Syrup :Syrups="selectedSyrup" />
+    <div>
+      <template v-for="temp in syrups" :key="temp">
+          <label>
+            <input
+              type="radio"
+              name="syrup"
+              :id="`r${temp}`"
+              :value="temp"
+              v-model="selectedSyrup"
+            />
+            {{ temp }}
+          </label>
+        </template>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import Beverage from "./components/Beverage.vue";
+import Syrup from "./components/Syrup.vue";
 // Define reactive data
 const temps = ref(["Hot", "Cold"]);
 const currentTemp = ref("Hot");
+const syrups = ref(["Vanilla", "Caramel", "Hazelnut"])
+const selectedSyrup = ref("Vanilla");
 </script>
 
 <style lang="scss">
