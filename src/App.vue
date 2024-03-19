@@ -1,94 +1,51 @@
 <template>
   <div>
-    <Beverage :isIced="currentTemp === 'Cold'" />
-    <div class="options">
-      <label>Temperature:</label>
-      <template v-for="temp in temps" :key="temp">
-        <label>
-          <input
-            type="radio"
-            name="temperature"
-            :id="`r${temp}`"
-            :value="temp"
-            v-model="currentTemp"
-          />
-          {{ temp }}
-        </label>
-      </template>
-    </div>
-
-    <!-- Creamer options -->
-    <div class="options">
-      <label>Creamer:</label>
-      <template v-for="creamer in creamers" :key="creamer">
-        <label>
-          <input
-            type="radio"
-            name="creamer"
-            :id="`r${creamer}`"
-            :value="creamer"
-            v-model="selectedCreamer"
-          />
-          {{ creamer }}
-        </label>
-      </template>
-    </div>
-
-    <!-- Syrup options -->
-    <div class="options">
-      <label>Syrup:</label>
-      <template v-for="syrup in syrups" :key="syrup">
-        <label>
-          <input
-            type="radio"
-            name="syrup"
-            :id="`r${syrup}`"
-            :value="syrup"
-            v-model="selectedSyrup"
-          />
-          {{ syrup }}
-        </label>
-      </template>
-    </div>
-
-    <!-- Base beverage options -->
-    <div class="options">
-      <label>Base Beverage:</label>
-      <template v-for="base in baseBeverages" :key="base">
-        <label>
-          <input
-            type="radio"
-            name="base"
-            :id="`r${base}`"
-            :value="base"
-            v-model="selectedBase"
-          />
-          {{ base }}
-        </label>
-      </template>
-    </div>
+    <Beverage
+      :isIced="currentTemp === 'Cold'"
+      :creamer="currentCreamer"
+      :syrup="currentSyrup"
+      :beverage="baseBev"
+    />
+    <Selection
+      category="Temperature"
+      :items="temps"
+      :current="currentTemp"
+      @update:modelValue="currentTemp = $event"
+    />
+    <Selection
+      category="Creamer"
+      :items="creamers"
+      :current="currentCreamer"
+      @update:modelValue="currentCreamer = $event"
+    />
+    <Selection
+      category="Syrup"
+      :items="syrups"
+      :current="currentSyrup"
+      @update:modelValue="currentSyrup = $event"
+    />
+    <Selection
+      category="Base"
+      :items="bases"
+      :current="baseBev"
+      @update:modelValue="baseBev = $event"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import Beverage from "./components/Beverage.vue";
-
+import Selection from "./components/Selection.vue";
 // Define reactive data
-const temps = ref(["Hot", "Cold"]);
+const temps = ["Hot", "Cold"];
+const creamers = ["None", "Milk", "Cream", "Half & Half"];
+const syrups = ["None", "Vanilla", "Caramel", "Hazelnut"];
+const bases = ["Coffee", "Green Tea", "Black Tea"];
 const currentTemp = ref("Hot");
-
-// Creamer options
-const creamers = ref(["None", "Milk", "Cream", "Half & Half"]);
-const selectedCreamer = ref("None");
-
-// Syrup options
-const syrups = ref(["None", "Vanilla", "Caramel", "Hazelnut"]);
-const selectedSyrup = ref("None");
-
-// Base beverage options
-const baseBeverages = ref(["Coffee", "Green Tea", "Black Tea"]);
-const selectedBase = ref("Coffee");
+const currentCreamer = ref("None");
+const currentSyrup = ref("None");
+const baseBev = ref("Coffee");
 </script>
 
 <style lang="scss">
@@ -104,8 +61,5 @@ html {
 }
 ul {
   list-style: none;
-}
-.options {
-  margin-bottom: 1rem;
 }
 </style>
