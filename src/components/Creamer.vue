@@ -1,6 +1,10 @@
 <template>
   <div class="froth">
-    <div v-for=" in 5" class="foam"></div>
+    <div
+      v-for=" in 5"
+      class="foam"
+      :style="{ background: creamer?.color }"
+    ></div>
   </div>
 </template>
 
@@ -13,6 +17,7 @@ type Creamer = {
   name: string;
   color: string;
 };
+
 const Creamers: Creamer[] = [
   {
     name: "Milk",
@@ -30,6 +35,10 @@ const Creamers: Creamer[] = [
 
 const props = withDefaults(defineProps<Prop>(), {
   name: "Milk",
+});
+
+const creamer = computed(() => {
+  return Creamers.find((c) => c.name === props.name);
 });
 </script>
 <style lang="scss" scoped>
